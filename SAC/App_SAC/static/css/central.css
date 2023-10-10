@@ -1,0 +1,62 @@
+
+:root{
+    --cor_fundo : rgb(192, 163, 163);
+    --cor_hover : rgb(150, 104, 104);
+    --cor_primaria : rgb(252, 249, 249);
+}
+
+
+
+
+
+
+body{
+     font-family: arial;
+     color:rgb(17, 1, 1);
+     display: flex; 
+     justify-content: center;
+
+    }
+    
+.content {
+
+    display: flex; 
+    justify-content: center;
+
+
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+     width: 100%;
+     height: 100%;
+     align-content: center;
+     width: 100%;
+     /* display: flex; */
+    }    
+
+    .form{
+      display: flex;
+      flex-direction: column;
+      width: 600px;
+      padding: 10px;
+      
+      /* justify-content: center; */
+}
+    
+h1{
+    margin-bottom: 1rem;
+    text-align: center;
+    
+  }
+
+.botoes {
+
+    display: flex; 
+    justify-content: center;
+
+
+}

@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Reg_Atend.css' %}">
+
+
+    <title>Document</title>
+</head>
+<header class="login">
+    <div class="fundo_menu">
+        <div class="logo_senai">
+            <a href="/"><img src="{% static 'imagens/logo_senai.png' %}" /></a>
+        </div>
+        <div class="nome_sistema">
+             Programação Web Back End<br>
+             Sistema de atendimento ao cliente
+        </div>
+        
+          <div class="botao_login">
+            <a href="accounts/logout"><button class="btn btn_login">Logout</button></a>
+        </div>
+
+        <div class="botao_login">
+            <a href="accounts/login"><button class="btn btn_login">Login</button></a>
+        </div>
+        
+        
+    </div>
+</header> 
+
+
+<nav class="menu">
+    <ul>
+        {% if user.is_authenticated %}
+        <li><a href="Cadastros">Cadastros</a>
+            <ul>
+                <li><a href="Cad_Cliente.html">Clientes</a></li>
+                <li><a href="Departamentos">Departamentos</a></li>
+                <li><a href="Atendentes">Atendentes</a></li>
+                <li><a href="Situações">Situações</a></li>
+            </ul>
+        </li>    
+        <li><a href="Registrar">Registrar Atendimento</a></li>
+        <li><a href="Consultar">Consultar Atendimento</a></li>
+        <li><a href="Relatorios">Relatórios</a></li>
+        <li> | Usuário logado: {{usuario_logado}}</a></li>
+        {% endif %}
+    </ul> 
+</nav> 
+     
+<body>
+    <div class="principal">
+    <div class="container">
+        <section class="enquadramento">
+            <h1> Registrar Atendimento</h1>
+        </section>
+
+        
+        {% if messages %}
+            <ul class="mensagem_do_servidor" style="background: #7d7f81; padding: 24px; text-align:center; color: #fff;">
+                {% for mensagem in messages %}
+                   <li style="list-style: none;" {% if mensagem.tags %}class="alert alert-{{message.tags}}"{% endif %}>{{mensagem}}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+
+        <div class = "num_hora">
+            <div class="informe num_atend">
+                <label for="numero_atendimento">Atendimento:{{cons_ultimo}}</label>
+                <label id="numero"></label>
+
+            </div>
+            <div class="informe hora_atend">
+                <label for="hora_atendimento">Data e Hora:</label>
+                <label id="hora">{{data_e_hora}}</label>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <form id="form_busca_cliente" class="form_busca_cliente" method="POST" action="{% url 'reg_atend_busca_cliente'%}">{% csrf_token %}
+
+
+            <div class="input_pesquisar_cliente">
+                <label for="sel_cliente">Cliente</label>
+                <input type="text" id="sel_cliente" name="sel_cliente" value="{{cliente_sel.nome}}" placeholder="Selecione o Cliente" />
+            </div>
+            <div class="btn_pesquisar_cliente">
+                <button type="submit" id="btnPesquisar_Cliente" >Pesquisar</button>
+            </div>
+           
+        </form>
+        
+        <table id="clientes">
+            {% for igs in dados_clientes %}
+            <tr>
+                <td>{{igs.nome}}</td>
+                <td>{{igs.telefone}}</td>
+                <td>{{igs.email}}</td>
+                <td>{{igs.observacao}}</td>
+                <td><a href="sel_cliente/{{igs.id}}">{{igs.id}}</a></td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        <hr>
+
+
+        <form id="form" class="form"method="POST" action="{% url 'salvar_atendimento_novo'%}">{% csrf_token %}
+            
+                
+                <div class="form-content">
+                    <label for="solicitacao">Solicitação</label>
+                    <input type="hidden"  name="id_cliente" id="id_cliente"  value="{{cliente_sel.id}}" />
+                    <textarea name="solicitacao" id="solicitacao" cols="25" rows="10" placeholder="Descreva aqui a solicitção do cliente"></textarea>
+                    <a>Solicitação</a>
+                </div>
+
+                <div class="form-content">
+                    <label for="encaminhar">Encaminhar para </label>
+                    <select name="encaminhar">
+                        <option value="">Indique o Departamento para encaminhar a solicitação</option>
+                        {% for igs in cons_depto %}
+                        <option value="{{igs.id}}">{{igs.descricao_departamento}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                
+                <div class="botoes">
+                    <div class="botao_confirmar">
+                        <button id="btnConfirmar" class="btn_conf_cancel btn_confirmar">Confirmar</button>
+                    </div>
+
+
+                </div>
+        </form>
+
+
+
+    </div>    
+    </div>
+
+
+
+
+
+</body>
+
+
+
+<footer class="rodape">
+    <div class="fundo_menu">
+        
+        <div class="rodape1">
+            Escola e Faculdade de Tecnologia Senai "Roberto Mange"<br>
+            Curso de Análise e Desenvolvimento de Sistemas.<br>
+         
+        </div>  
+        
+        
+    </div>
+</footer> 
+
+
+</html>
